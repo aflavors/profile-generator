@@ -82,6 +82,35 @@ function addEngineer() {
     })
 }
 
+function addIntern() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the intern's name?",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "What is the intern's id?",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "What is the intern's email address?",
+            name: "email"
+        },
+        {
+            type: "input",
+            message: "What school does the intern attend?",
+            name: "school"
+        }
+    ]).then(function(res){
+        const intern = new Intern (res.name, res.id,res.email,res.school);
+        teamMembers.push(intern);
+        createTeam();
+    })
+}
+
 function createTeam(){
     
     inquirer
@@ -99,6 +128,9 @@ function createTeam(){
         }
         if(response.type === "Engineer"){
             addEngineer();
+        }
+        if(respinse.type === "Intern"){
+            addIntern();
         }
         //call render function and pass in an array containing all employee objects
         //render function will generate and return a block of HTML including templated divs for each employee
