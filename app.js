@@ -9,34 +9,34 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-
+var teamMembers = [];
+//uuid package for generating random number
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-
-inquirer
-.prompt([
-    {
-        type: "list",
-        message: "Which type of team member would you like to add?",
-        name: "type",
-        choices: ["Manager", "Engineer", "Intern",]
-    },
+function addManager(){
+    inquirer.prompt([
     {
         type: "input",
-        message: "What is your employee's name?",
+        message: "What is your manager's name?",
         name: "name"
     },
     {
         type: "input",
-        message: "What is your employee's ID?",
-        name: "ID"
+        message: "What is your manager's id?",
+        name: "id"
     },
     {
         type: "input",
-        message: "What is your employee's email address?",
+        message: "What is your manager's email address?",
         name: "email"
     },
+    {
+        type: "input",
+        message: "What is your manager's office number?",
+        name: "officeNum"
+    }
+    /*,
     {
         type: "input",
         message: "What is your employee's [engineer only] GitHub username?",
@@ -46,12 +46,34 @@ inquirer
         type: "input",
         message: "What is your employee's [intern only] school?",
         name: "name"
+    }*/]).then(function(res){
+        const manager = new Manager(res.name, res.id,res.email,res.officeNum);
+        teamMembers.push(manager);
+        createTeam();
+    })
+}
+
+function createTeam(){
+    
+inquirer
+.prompt([
+    {
+        type: "list",
+        message: "Which type of team member would you like to add?",
+        name: "type",
+        choices: ["Manager", "Engineer", "Intern","Exit"]
     }
 ])
 .then (function(response){
+    if(response.type === "Manager"){
+        addManager();
+    }
     //call render function and pass in an array containing all employee objects
     //render function will generate and return a block of HTML including templated divs for each employee
 })
+}
+
+createTeam();
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
