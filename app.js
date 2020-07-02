@@ -36,17 +36,7 @@ function addManager(){
         message: "What is your manager's office number?",
         name: "officeNum"
     }
-    /*,
-    {
-        type: "input",
-        message: "What is your employee's [engineer only] GitHub username?",
-        name: "name"
-    },
-    {
-        type: "input",
-        message: "What is your employee's [intern only] school?",
-        name: "name"
-    }*/]).then(function(res){
+    ]).then(function(res){
         const manager = new Manager (res.name, res.id,res.email,res.officeNum);
         teamMembers.push(manager);
         createTeam();
@@ -111,6 +101,14 @@ function addIntern() {
     })
 }
 
+function createHTML(){
+    if (!fs.existsSync(OUTPUT_DIR)) {
+        fs.mkdirSync(OUTPUT_DIR);
+    }
+
+    fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
+}
+
 function createTeam(){
     
     inquirer
@@ -129,8 +127,11 @@ function createTeam(){
         if(response.type === "Engineer"){
             addEngineer();
         }
-        if(respinse.type === "Intern"){
+        if(response.type === "Intern"){
             addIntern();
+        }
+        if(response.type === "Exit"){
+            createHTML();
         }
         //call render function and pass in an array containing all employee objects
         //render function will generate and return a block of HTML including templated divs for each employee
