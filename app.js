@@ -47,30 +47,62 @@ function addManager(){
         message: "What is your employee's [intern only] school?",
         name: "name"
     }*/]).then(function(res){
-        const manager = new Manager(res.name, res.id,res.email,res.officeNum);
+        const manager = new Manager (res.name, res.id,res.email,res.officeNum);
         teamMembers.push(manager);
+        createTeam();
+    })
+}
+
+function addEngineer() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the engineer's name?",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "What is the engineer's id?",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "What is the engineer's email address?",
+            name: "email"
+        },
+        {
+            type: "input",
+            message: "What is the engineer's GitHub username?",
+            name: "github"
+        }
+    ]).then(function(res){
+        const engineer = new Engineer (res.name, res.id,res.email,res.github);
+        teamMembers.push(engineer);
         createTeam();
     })
 }
 
 function createTeam(){
     
-inquirer
-.prompt([
-    {
-        type: "list",
-        message: "Which type of team member would you like to add?",
-        name: "type",
-        choices: ["Manager", "Engineer", "Intern","Exit"]
-    }
-])
-.then (function(response){
-    if(response.type === "Manager"){
-        addManager();
-    }
-    //call render function and pass in an array containing all employee objects
-    //render function will generate and return a block of HTML including templated divs for each employee
-})
+    inquirer
+    .prompt([
+        {
+            type: "list",
+            message: "Which type of team member would you like to add?",
+            name: "type",
+            choices: ["Manager", "Engineer", "Intern","Exit"]
+        }
+    ])
+    .then (function(response){
+        if(response.type === "Manager"){
+            addManager();
+        }
+        if(response.type === "Engineer"){
+            addEngineer();
+        }
+        //call render function and pass in an array containing all employee objects
+        //render function will generate and return a block of HTML including templated divs for each employee
+    })
 }
 
 createTeam();
