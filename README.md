@@ -23,7 +23,7 @@ Use the package manager [node](https://www.npmjs.com/) to run Profile Generator.
 
 The application will be invoked with the following comand:
 
-    node index.js
+    node app.js
 
 
 ### License
